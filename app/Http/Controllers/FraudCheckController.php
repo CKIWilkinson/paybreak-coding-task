@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class FraudIdentification extends Controller
+class FraudCheck extends Controller
 {
-    public function fraudidentification(Request $request)
+    public function fraudcheck(Request $request)
     {
         $threshold = $request->threshold;
         $applications = $request->applications;
