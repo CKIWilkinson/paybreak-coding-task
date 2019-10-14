@@ -12,7 +12,7 @@ class FraudCheckControllerTest extends TestCase
      *
      * @return void
      */
-    public function testFraudCheckNoThreshold()
+    public function testFraudCheckNoThreshold(): void
     {
       $response = $this->call('POST', 'api/fraudcheck', ["applications" => ["7a81b904f63762f00d53c4d79825420efd00f5f9, 2019-01-29T13:12:11, 100.00"]]);
 
@@ -25,7 +25,7 @@ class FraudCheckControllerTest extends TestCase
      *
      * @return void
      */
-    public function testFraudCheckInvalidThreshold()
+    public function testFraudCheckInvalidThreshold(): void
     {
       $response = $this->call('POST', 'api/fraudcheck', ["threshold" => "invalid", "applications" => ["7a81b904f63762f00d53c4d79825420efd00f5f9, 2019-01-29T13:12:11, 100.00"]]);
 
@@ -38,7 +38,7 @@ class FraudCheckControllerTest extends TestCase
      *
      * @return void
      */
-    public function testFraudCheckNoApplications()
+    public function testFraudCheckNoApplications(): void
     {
       $response = $this->call('POST', 'api/fraudcheck', ["threshold" => 100]);
 
@@ -50,7 +50,7 @@ class FraudCheckControllerTest extends TestCase
      *
      * @return void
      */
-    public function testFraudCheckEmptyApplications()
+    public function testFraudCheckEmptyApplications(): void
     {
       $response = $this->call('POST', 'api/fraudcheck', ["threshold" => 100, "applications" => []]);
 
@@ -62,7 +62,7 @@ class FraudCheckControllerTest extends TestCase
      *
      * @return void
      */
-    public function testFraudCheckNoFraudulentApplications()
+    public function testFraudCheckNoFraudulentApplications(): void
     {
       $response = $this->call('POST', 'api/fraudcheck', ["threshold" => 100, "applications" => ["7a81b904f63762f00d53c4d79825420efd00f5f9, 2019-01-29T13:12:11, 100.00"]]);
 
@@ -74,7 +74,7 @@ class FraudCheckControllerTest extends TestCase
      *
      * @return void
      */
-    public function testFraudCheckHasFraudulentApplications()
+    public function testFraudCheckHasFraudulentApplications(): void
     {
       /*
       The POST data prettified in JSON format:

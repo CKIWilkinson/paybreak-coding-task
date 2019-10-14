@@ -7,24 +7,9 @@ use App\Http\Controllers\Controller;
 
 class FraudCheck extends Controller
 {
-    /*
-      POST /api/fraudcheck
-      Expected body:
-      {
-        "threshold": 00.00,
-        "applications": [
-          "7a81b904f63762f00d53c4d79825420efd00f5f9, 2019-01-29T13:12:11, 100.00"
-        ]
-      }
-
-      Applications are fraudulent if they exceed the given threshold within
-      24 hours from a single postcode. Applications are a comma 
-      separated list of a hashed postal code, a timestamp and an amount, all in
-      the format shown above.
-
-      returns an array of postcodes found to have made fraudulent applications IE:
-      ["9976bdc9565c7a2e34d432a2e5778bf8fa7eb735", "efa0bee4e432d97b72d17462c71018063ecb9f0e"]
-    */
+    /**
+     * @param Request $request
+     */
     public function fraudcheck(Request $request)
     {
         $threshold = $request->threshold;
