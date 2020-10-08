@@ -16,19 +16,17 @@ class FraudCheck extends Controller
         $applications = $request->applications;
 
         // Validates that we have the necessary parameters
-        if (
-          is_null($threshold) ||
-          !is_numeric($threshold)
-        ) {
+        if (is_null($threshold) || !is_numeric($threshold)) {
           return response()->json('threshold must exist and be numeric', 400);
         }
-        if (
-          empty($applications)
-        ) {
+
+        if (empty($applications)) {
           return response()->json('applications must exist and be in an array', 400);
         }
+
         $fraudulentPostcodes = [];
         $processedApplications = [];
+
         foreach ($applications as $application) {
           // split the application string up into its components
           $application = explode(', ', $application);
@@ -40,6 +38,7 @@ class FraudCheck extends Controller
           }
 
           $amount = $application[2];
+
           if ($amount > $threshold) {
             $fraudulentPostcodes[] = $postcode;
             continue;
@@ -54,8 +53,10 @@ class FraudCheck extends Controller
               'datetime' => $datetime,
               'amount' => $amount
             ];
+
             continue;
           }
+
           foreach ($processedApplications[$postcode] as $key => $processedApplication) {
             // Checks the difference between the datetimes of the 2 applications
             // and outputs it as whole days, so if it's within 24 hours it will return 0
@@ -63,22 +64,28 @@ class FraudCheck extends Controller
             // which is truthy.
             if ($datetime->diff($processedApplication['datetime'])->format('%a')) {
               unset($processedApplications[$postcode][$key]);
+
               continue;
             }
+
             $processedApplications[$postcode][$key]['amount'] = $processedApplication['amount'] + $amount;
+
             if ($processedApplications[$postcode][$key]['amount'] > $threshold) {
               $fraudulentPostcodes[] = $postcode;
+
               // skips to the next iteration over the applications array because
               // we know that this postcode is fraudulent
               continue(2);
             }
           }
+
           $processedApplications[$postcode][] = [
             'datetime' => $datetime,
             'amount' => $amount
           ];
 
         }
+
         return response()->json($fraudulentPostcodes, 200);
     }
 }
